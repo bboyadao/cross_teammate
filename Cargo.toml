@@ -1,0 +1,13 @@
+[package]
+name = "TEAM"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+uniffi = "0.27.1"
+
+[build-dependencies]
+uniffi = { version = "0.27.1", features = ["build"] }
+
+[lib]
+crate-type = ["cdylib"]
