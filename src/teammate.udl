@@ -1,27 +1,35 @@
 namespace teammate {
-
 };
 
-dictionary Act {
-    string user;
-    i64 paid;
-    i64 have_to_pay;
-    i64 need_to_earn;
+[Custom]
+typedef string Uuid;
+[Custom]
+typedef string Url;
+
+dictionary User {
+    string name;
+    Uuid id;
 };
+
 
 dictionary Payment {
-    string src;
-    string dst;
-    i64 amount;
+    User src;
+    User dst;
+    u64 amount;
 };
 
-[Error]
-enum ArithmeticError {
-  "IntegerOverflow",
-};
 
+dictionary Expense {
+    User user;
+    u64 amount;
+    u64 have_to_pay;
+    u64 need_to_earn;
+    u64 paid;
+};
 
 interface Teammate {
-    Act new_act(string user, i64 paid);
-    sequence<Payment> calculate(sequence<Act> acts, optional boolean ceil);
+    [Async, Name=anew]
+    constructor(sequence<Expense> expense);
+//    sequence<Payment> calculate();
 };
+
