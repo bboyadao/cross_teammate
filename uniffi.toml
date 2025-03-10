@@ -73,4 +73,4 @@ imports = ["uuid"]
 # and to lower it to a Rust string
 #lower = "uuid.UUID({})"
 into_custom = "uuid.UUID({})"
-from_custom = "uuid.UUID({})"
+from_custom = "{}.hex()"
