@@ -29,7 +29,7 @@ dictionary Expense {
 
 interface Teammate {
     [Async, Name=anew]
-    constructor(sequence<Expense> expense);
+    constructor(sequence<Expense> expenses);
 //    sequence<Payment> calculate();
 };
 

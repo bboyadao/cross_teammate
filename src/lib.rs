@@ -1,12 +1,12 @@
+use async_trait::async_trait;
 use derive_builder::Builder;
 use uuid::{Uuid};
 use serde::{Deserialize, Serialize};
+use serde_json::Result as JsonResult;
 
 pub struct CusUuid(pub Uuid);
 
-// uniffi::custom_type!(CusUuid, Uuid);
 uniffi::custom_type!(Uuid, String, {
-    // Remote is required since `Url` is from a different crate
     remote,
     try_lift: |val| Ok(Uuid::parse_str(&val)?),
     lower: |obj| obj.into(),
@@ -23,20 +23,29 @@ pub struct User {
     pub id: Uuid,
 }
 
+#[async_trait]
+pub trait ToJson {
+    async fn to_json(&self) -> JsonResult<String>;
+}
+#[async_trait]
+impl ToJson for User {
+    async fn to_json(&self) -> JsonResult<String> {
+        serde_json::to_string(self)
+    }
+}
 impl User {
-    // Corrected constructor
     pub fn new(name: &str, id: Option<Uuid>) -> Self {
         Self {
             name: name.to_string(),
-            id: id.unwrap_or_else(new_uuid), // Default to new UUID if None
+            id: id.unwrap_or_else(new_uuid),
         }
     }
 }
-#[derive(Debug, Clone, Builder)]
+#[derive(Debug, Clone, Builder, Serialize, Deserialize)]
 pub struct Expense {
-    amount: u64,
-    user: User,
-    paid: u64,
+    pub amount: u64,
+    pub user: User,
+    pub paid: u64,
     #[builder(default)]
     pub have_to_pay: u64,
 
@@ -44,32 +53,38 @@ pub struct Expense {
     pub need_to_earn: u64,
 }
 
-
+#[async_trait]
+impl ToJson for Expense {
+    async fn to_json(&self) -> JsonResult<String> {
+        serde_json::to_string(self)
+    }
+}
 pub struct Payment {
     pub src: User,
     pub dst: User,
     pub amount: u64,
 }
 
+#[derive(Debug, Clone, Builder, Serialize, Deserialize)]
 pub struct Teammate {
     pub users: Vec<User>,
-    pub expense: Vec<Expense>,
+    pub expenses: Vec<Expense>,
 }
 impl Teammate {
-    pub async fn anew(exps: Vec<Expense>) -> Self{
+    pub async fn anew(expenses: Vec<Expense>) -> Self{
         let mut users: Vec<User> = Vec::new();
-
-        // Collect unique users from expenses
-        // for exp in &exps {
-        //     if !users.iter().any(|u| u.name == exp.user) {
-        //         users.push(User::new(&exp.user, None));
-        //     }
-        // }
-
-        Teammate { users, expense: exps }
+        Teammate { users, expenses: expenses }
     }
     // pub async fn calculate(self) -> Result<Vec<Payment>, Box<dyn Error>> {
     //     todo!()
     // }
+
+}
+
+#[async_trait]
+impl ToJson for Teammate {
+    async fn to_json(&self) -> JsonResult<String> {
+        serde_json::to_string(self)
+    }
 }
 uniffi::include_scaffolding!("teammate");

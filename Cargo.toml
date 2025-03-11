@@ -8,14 +8,20 @@ uniffi = { version = "0.29.0", features = ["cli"] }
 derive_builder = "0.20.0"
 uuid = { version = "1.15.1", features = ["v4", "serde"] }
 serde = { version = "1.0.218", features = ["derive"] }
+serde_json = "1.0.140"
 anyhow = "1.0.97"
 log = "0.4.26"
+async-trait = "0.1.87"  # To allow async methods in traits
+
+[dev-dependencies]
+tokio = { version = "1", features = ["full"] }
+
 
 [build-dependencies]
 uniffi = { version = "0.29.0", features = ["cli", "build"] }
 
 [lib]
-crate-type = ["cdylib"]
+crate-type = ["rlib", "cdylib"]
 name = "teammate"
 
 [[bin]]
