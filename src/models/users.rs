@@ -1,14 +1,15 @@
 use derive_builder::Builder;
 use serde::{Deserialize, Serialize};
-use uuid::Uuid;
+use crate::UlidFfi;
 
-pub fn new_uuid() -> Uuid {
-    Uuid::new_v4()
+
+pub fn new_ulid() -> UlidFfi {
+    UlidFfi("".into())
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, Builder)]
 pub struct User {
     pub name: String,
-    #[serde(default = "new_uuid")]
-    pub id: Uuid,
+    #[serde(default = "new_ulid")]
+    pub id: UlidFfi,
 }

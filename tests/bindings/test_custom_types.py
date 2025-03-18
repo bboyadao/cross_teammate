@@ -1,4 +1,4 @@
-from custom_types import *
+from teammate import *
 
 # Get the custom types and check their data
 val = get_custom_types_demo(None)

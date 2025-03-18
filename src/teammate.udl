@@ -2,13 +2,14 @@ namespace teammate {
 };
 
 [Custom]
-typedef string Uuid;
+typedef string UlidFfi;
+
 [Custom]
 typedef string Url;
 
 dictionary User {
     string name;
-    Uuid id;
+    UlidFfi id;
 };
 
 
@@ -32,4 +33,5 @@ interface Teammate {
     constructor(sequence<Expense> expenses);
 //    sequence<Payment> calculate();
 };
+
 
