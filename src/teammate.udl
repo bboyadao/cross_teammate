@@ -2,14 +2,14 @@ namespace teammate {
 };
 
 [Custom]
-typedef string UlidFfi;
+typedef string Ulid;
 
 [Custom]
 typedef string Url;
 
 dictionary User {
     string name;
-    UlidFfi id;
+    Ulid id;
 };
 
 

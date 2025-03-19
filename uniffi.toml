@@ -67,10 +67,6 @@ from_custom = "urllib.parse.urlparse({})"
 # thing Python has to an Url class.  No need to specify `type_name` though,
 # since Python is loosely typed.
 # modules to import
-imports = ["luid"]
-# Function to lift a string from Rust into a Python URL.
-#lift = "luid.LUID({})"
-# and to lower it to a Rust string
-#lower = "luid.LUID({})"
-into_custom = "luid.LUID({})"
-from_custom = "{}.hex()"
+imports = ["ulid"]
+try_lift = "ulid.LUID({})"
+lower = "{}.hex()"
