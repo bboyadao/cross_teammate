@@ -33,5 +33,3 @@ interface Teammate {
     constructor(sequence<Expense> expenses);
 //    sequence<Payment> calculate();
 };
-
-
