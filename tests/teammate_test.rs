@@ -2,7 +2,7 @@
 mod tests {
     use teammate::models::teammate::Teammate;
     use teammate::models::expenses::Expense;
-    use teammate::models::users::User;
+    use teammate::models::users::{new_ulid, User};
     use teammate::traits::users::Users;
     use teammate::traits::to_json::{ToJson};
 
@@ -26,9 +26,19 @@ mod tests {
         };
 
         let teammate = Teammate::anew(vec![expense1, expense2]).await;
-        // println!(":?", teammate.expenses)
+
+        // dbg!(&teammate.expenses);
+        // dbg!(&teammate.to_json().await);
+        // println!("{:?}", teammate.expenses);
+        // assert_eq!(teammate.expenses.len(), 2);
+
         dbg!(&teammate.expenses);
-        dbg!(&teammate.to_json().await);
+        let json = match teammate.to_json().await {
+            Ok(json) => json,
+            Err(e) => panic!("to_json failed: {:?}", e),
+        };
+        dbg!(&json);
+        println!("{:?}", teammate.expenses);
         assert_eq!(teammate.expenses.len(), 2);
     }
 }

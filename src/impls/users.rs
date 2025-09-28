@@ -1,6 +1,6 @@
 use async_trait::async_trait;
 use crate::traits::users::{ Users };
-use crate::models::users::{new_ulid, User as ModelUser};
+use crate::models::users::{new_url, new_ulid, User as ModelUser};
 use crate::traits::to_json::ToJson;
 use serde_json::Result as JsonResult;
 
