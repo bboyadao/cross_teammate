@@ -2,7 +2,6 @@ pub mod traits;
 pub mod models;
 pub mod impls;
 use ulid::Ulid;
-use url::Url;
 use crate::models::teammate::Teammate;
 use crate::models::users::User;
 use crate::models::expenses::Expense;
