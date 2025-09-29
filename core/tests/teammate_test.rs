@@ -1,7 +1,7 @@
-use teammate::models::teammate::Teammate;
-use teammate::models::expenses::Expense;
-use teammate::models::users::{User};
-use teammate::traits::users::Users;
+use mate_core::models::teammate::Teammate;
+use mate_core::models::expenses::Expense;
+use mate_core::models::users::{User};
+use mate_core::traits::users::Users;
 // use teammate::traits::to_json::{ToJson};
 
 #[tokio::test]

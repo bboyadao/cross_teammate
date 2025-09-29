@@ -1,0 +1,22 @@
+[package]
+name = "mate_core"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+derive_builder = "0.20.0"
+ulid = { version = "1.2.1", features = ["serde"]}
+serde = { version = "1.0.218", features = ["derive"] }
+serde_json = "1.0.140"
+async-trait = "0.1.87"
+url = { version = "2.2", features = ["serde"] }
+
+[dev-dependencies]
+tokio = { version = "1", features = ["full"] }
+
+
+[build-dependencies]
+
+[lib]
+crate-type = ["rlib", "cdylib"]
+name = "mate_core"
