@@ -1,3 +1,8 @@
+[bindings]
+teammate.udl = "src/uniffi-bindgen.rs"
+[custom-types]
+Ulid = { module = "crate::models::custom_ulid" }
+
 [bindings.swift.custom_types.Url]
 # Name of the type in the Swift code
 type_name = "URL"

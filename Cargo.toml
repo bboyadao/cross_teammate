@@ -4,13 +4,5 @@ version = "0.1.0"
 edition = "2024"
 
 [workspace]
-members = ["core", "uniffi", "wasm"]
+members = ["core", "uni_core", "wasm"]
 resolver = "2"
-
-[lib]
-crate-type = ["rlib", "cdylib"]
-name = "cross_core"
-
-[dependencies]
-[dev-dependencies]
-[build-dependencies]
