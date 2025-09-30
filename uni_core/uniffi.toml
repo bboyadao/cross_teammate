@@ -1,5 +1,8 @@
 [bindings]
+name = "teammate"
 teammate.udl = "src/uniffi-bindgen.rs"
+udl_file = "src/teammate.udl"
+
 [custom-types]
 Ulid = { module = "crate::models::custom_ulid" }
 

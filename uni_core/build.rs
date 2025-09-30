@@ -8,6 +8,6 @@ use camino::Utf8PathBuf;
 
 fn main() {
     let manifest_dir = std::env::var("CARGO_MANIFEST_DIR").unwrap();
-    let udl_file = Utf8PathBuf::from(manifest_dir).join("teammate.udl");
+    let udl_file = Utf8PathBuf::from(manifest_dir).join("src/teammate.udl");
     uniffi::generate_scaffolding(&udl_file).unwrap();
 }

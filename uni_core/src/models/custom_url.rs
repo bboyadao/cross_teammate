@@ -8,4 +8,4 @@ uniffi::custom_type!(Url, String, {
     lower: |obj| obj.into(),
 });
 
-uniffi::include_scaffolding!("teammate");
+// uniffi::include_scaffolding!("teammate");
