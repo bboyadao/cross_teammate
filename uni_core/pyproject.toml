@@ -1,0 +1,27 @@
+[build-system]
+requires = ["maturin>=1.4,<2.0"]
+build-backend = "maturin"
+
+[project]
+name = "teammate_cores"
+description = "Core written in Rust, exported with UniFFI"
+readme = { file = "README.md", content-type = "text/markdown" }
+requires-python = ">=3.8"
+license = { text = "MIT" }
+authors = [
+    { name = "bboyadao", email = "tuananh@chuthe.com" }
+]
+classifiers = [
+    "Programming Language :: Rust",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: Implementation :: CPython",
+    "Programming Language :: Python :: Implementation :: PyPy",
+    "Operating System :: POSIX :: Linux"
+]
+dynamic = ["version"]
+
+[tool.maturin]
+bindings = "uniffi"
+compatibility = "manylinux2014"
+features = []
+include = ["src/teammate.udl", "uniffi.toml"]
