@@ -22,11 +22,6 @@ async fn test_teammate_creation() {
         have_to_pay: 0,
         need_to_earn: 0,
     };
-
     let teammate = Teammate::anew(vec![expense1, expense2]).await;
-
-    // dbg!(&teammate.expenses);
-    // dbg!(&teammate.to_json().await);
-    // println!("{:?}", teammate.expenses);
     assert_eq!(teammate.expenses.len(), 2);
 }
