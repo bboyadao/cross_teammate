@@ -8,5 +8,5 @@ crate-type = ["cdylib"]
 
 [dependencies]
 wasm-bindgen = "0.2"
-mate_core = { path = "../core" }
+mate_core = { path = "../mate_core" }
 ulid = "1.2.1"
