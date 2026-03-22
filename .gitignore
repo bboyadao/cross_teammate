@@ -4,3 +4,5 @@ Cargo.lock
 *.so
 __pycache__
 sdk
+!sdk/js/test_sdk.js
+!sdk/python/test_sdk.py
