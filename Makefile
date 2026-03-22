@@ -4,10 +4,10 @@ WASM_PACK = wasm-pack
 TEST_FLAGS = --verbose --color=always
 CRATES = mate_core uni wasm
 
-.PHONY: test $(CRATES) test-all clean help build-wasm build-python
+.PHONY: test $(CRATES) test-all clean help build-wasm build-python test-python test-js
 
 # Main test target
-test: $(addprefix test-,$(CRATES))
+test: $(addprefix test-,$(CRATES)) test-python test-js
 
 # Dynamic targets for each crate
 test-mate_core:
@@ -37,14 +37,23 @@ build-wasm:
 # Build Python SDK (renamed from buin)
 build-python:
 	@echo "Building Python SDK..."
+	@mkdir -p sdk/python
 	@cd uni && $(CARGO) build --release
-	@$(CARGO) run -p uni_core --bin uniffi-bindgen generate \
-	  --library ../target/release/libteammate.so \
+	@cd uni && $(CARGO) run -p uni_core --bin uniffi-bindgen generate \
+	  --library ../target/release/libuni_core.so \
 	  --crate uni_core \
 	  --language python \
 	  --out-dir ../sdk/python \
-	  -c ./uniffi.toml
-	@cp -R target/release/libteammate.so sdk/python/
+	  -c uniffi.toml
+	@cp target/release/libuni_core.so sdk/python/
+
+test-python: build-python
+	@echo "Running Python SDK tests..."
+	@python3 sdk/python/test_sdk.py
+
+test-js: build-wasm
+	@echo "Running JS/WASM SDK tests..."
+	@node sdk/js/test_sdk.js
 
 # Clean all targets
 clean:
@@ -65,6 +74,8 @@ help:
 	@echo "  test-wasm      - Test wasm crate only"
 	@echo "  build-wasm     - Build WASM package for JS"
 	@echo "  build-python   - Build Python SDK"
+	@echo "  test-python    - Run Python SDK tests"
+	@echo "  test-js        - Run JS/WASM SDK tests"
 	@echo "  mate_core      - Alias for test-mate_core"
 	@echo "  uni            - Alias for test-uni"
 	@echo "  wasm           - Alias for test-wasm"

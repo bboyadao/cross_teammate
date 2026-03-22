@@ -45,6 +45,10 @@ make build-wasm
 # Build Python SDK
 make build-python
 
+# Run SDK tests (after building)
+make test-python
+make test-js
+
 # Clean build artifacts
 make clean
 ```
