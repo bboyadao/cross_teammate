@@ -12,13 +12,11 @@ dictionary User {
     Ulid id;
 };
 
-
 dictionary Payment {
     User src;
     User dst;
     u64 amount;
 };
-
 
 dictionary Expense {
     User user;
@@ -29,7 +27,8 @@ dictionary Expense {
 };
 
 interface Teammate {
-//    [Async, Name=anew]
-//    constructor(sequence<Expense> expenses);
-//    sequence<Payment> calculate();
+    [Name=anew]
+    constructor(sequence<User> users, sequence<Expense> expenses);
+
+    sequence<Payment> calculate();
 };

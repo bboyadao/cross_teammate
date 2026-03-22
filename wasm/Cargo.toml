@@ -2,11 +2,19 @@
 name = "wasm"
 version = "0.1.0"
 edition = "2024"
+description = "WASM bindings for Teammate expense splitter"
+license = "MIT"
+repository = "https://github.com/example/cross_teammate"
 
 [lib]
-crate-type = ["cdylib"]
+crate-type = ["cdylib", "rlib"]
 
 [dependencies]
 wasm-bindgen = "0.2"
+getrandom = { version = "0.4.2", features = ["wasm_js"] }
+getrandom_03 = { package = "getrandom", version = "0.3", features = ["wasm_js"] }
 mate_core = { path = "../mate_core" }
 #ulid = "1.2.1"
+
+[package.metadata.wasm-pack.profile.release]
+wasm-opt = ["-O4", "--enable-mutable-globals"]
