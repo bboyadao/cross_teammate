@@ -121,7 +121,7 @@ async function run() {
 ### Python (SDK)
 
 ```python
-from sdk.python.teammate import Teammate, Expense, Member, Ulid
+from teammate import Teammate, Expense, Member, Ulid
 
 # Initialize members
 alice = Member(name="Alice", id=Ulid.new())
