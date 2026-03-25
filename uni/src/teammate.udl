@@ -1,5 +1,4 @@
-namespace teammate {
-};
+namespace teammate {};
 
 [Custom]
 typedef string Ulid;

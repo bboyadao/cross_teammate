@@ -87,7 +87,7 @@ async fn main() {
     let payments = tm.calculate();
 
     for p in payments {
-        println!("{} pays {} to {}", p.src.name, p.amount, p.dst.name);
+        println!("{} pays {} to {}", p.get_src().get_name(), p.amount, p.dst.name);
         // Output: Bob pays 150 to Alice
     }
 }
@@ -141,7 +141,7 @@ tm = Teammate.anew(users=[alice, bob], expenses=expenses)
 payments = tm.calculate()
 
 for p in payments:
-    print(f"{p.src.name} pays {p.amount} to {p.dst.name}")
+    print(f"{p.get_src().get_name()} pays {p.amount} to {p.dst.name}")
 ```
 
 ## Running Tests

@@ -13,3 +13,9 @@ pub struct User {
     #[serde(default = "new_ulid")]
     pub id: Ulid
 }
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct UserParams {
+    pub name: String,
+    pub id: Option<Ulid>,
+}

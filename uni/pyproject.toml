@@ -25,3 +25,14 @@ bindings = "uniffi"
 compatibility = "manylinux2014"
 features = []
 include = ["src/teammate.udl", "uniffi.toml"]
+
+
+[tool.ruff]
+line-length = 120
+target-version = "py314"
+
+[tool.ruff.format]
+quote-style = "double"
+
+[tool.ruff.lint]
+select = ["E", "F", "I"]  # basic: errors + imports

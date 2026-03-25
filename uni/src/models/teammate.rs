@@ -18,7 +18,7 @@ impl Teammate {
         core_tm
             .calculate()
             .into_iter()
-            .map(crate::models::Payment::from)
+            .map(|p| crate::models::Payment::from(p))
             .collect()
     }
 }

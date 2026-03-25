@@ -1,11 +1,12 @@
 import sys
 import os
-import uuid
 
 # Add the current directory to sys.path so we can import teammate
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
 from teammate import Teammate, Expense, User
+import ulid as ulid_mod
+
 
 def new_ulid():
     # ULID must be a 26-character string.
@@ -32,20 +33,19 @@ def test_basic_calculation():
         Expense(user=alice, amount=300, paid=300, have_to_pay=0, need_to_earn=0),
         Expense(user=bob, amount=0, paid=0, have_to_pay=0, need_to_earn=0),
     ]
-    
+
     tm = Teammate.anew(users=[alice, bob], expenses=expenses)
     payments = tm.calculate()
-    
+
     assert len(payments) == 1
     p = payments[0]
     assert p.src.name == "Bob"
     assert p.dst.name == "Alice"
     assert p.amount == 150
-    print("test_basic_calculation passed!")
+    print("  ✓ test_basic_calculation")
+
 
 def test_reference_data():
-    print("Running test_reference_data...")
-    # Reference data from mate_core/tests/teammate_test.rs
     raw = [
         ("Tuan Anh", 0),
         ("Truong", 500),
@@ -56,22 +56,20 @@ def test_reference_data():
         ("Tu", 5000),
         ("Baxom", 0),
     ]
-    
+
     users = []
     expenses = []
     for name, paid in raw:
         u = User(name=name, id=new_ulid())
         users.append(u)
         expenses.append(Expense(user=u, amount=paid, paid=paid, have_to_pay=0, need_to_earn=0))
-        
+
     tm = Teammate.anew(users=users, expenses=expenses)
     payments = tm.calculate()
-    
-    # Total redistributed should be 9250
+
     total_redistributed = sum(p.amount for p in payments)
     assert total_redistributed == 9250
-    
-    # Check individual debts/credits
+
     each = 15000 // 8
     for name, paid in raw:
         if paid < each:
@@ -83,13 +81,27 @@ def test_reference_data():
             received = sum(p.amount for p in payments if p.dst.name == name)
             assert received == credit, f"{name} should have received {credit} but received {received}"
 
-    print("test_reference_data passed!")
+    print("  ✓ test_reference_data")
+
+
+def test_create_user():
+    print("Running test_create_user...")
+    user = User(name="Alo", id=None)
+    print(user.name)
+    print(user.id)
+    assert user.id is not None
+    # id should be generated automatically
+    print("  ✓ test_create_user")
+
+# ── runner ────────────────────────────────────────────────────────────────────
 
 if __name__ == "__main__":
+    print("Python SDK tests:")
     try:
+        test_create_user()
         test_basic_calculation()
         test_reference_data()
-        print("\nAll Python SDK tests passed!")
+        print("\nAll Python SDK tests passed! ✅")
     except Exception as e:
         print(f"\nTests failed: {e}")
         import traceback
