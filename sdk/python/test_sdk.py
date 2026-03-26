@@ -11,7 +11,6 @@ import ulid as ulid_mod
 def new_ulid():
     # ULID must be a 26-character string.
     # Let's generate a valid-looking one.
-    import time
     import random
     
     # ULID alphabet (Crockford's Base32)
@@ -86,11 +85,12 @@ def test_reference_data():
 
 def test_create_user():
     print("Running test_create_user...")
-    user = User(name="Alo", id=None)
-    print(user.name)
-    print(user.id)
-    assert user.id is not None
-    # id should be generated automatically
+    from teammate import new_user
+    user = new_user(name="Alice", id=None)
+    breakpoint()
+    assert (
+        user.name == "Alice"
+    )
     print("  ✓ test_create_user")
 
 # ── runner ────────────────────────────────────────────────────────────────────

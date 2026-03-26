@@ -1,3 +1,4 @@
+use ulid::Ulid;
 use crate::models::user::User;
 use crate::models::expense::Expense;
 use mate_core::models::teammate::Teammate as CoreTeammate;
@@ -23,6 +24,7 @@ impl Teammate {
             .map(crate::models::Payment::from)
             .collect()
     }
+
 }
 
 impl From<Teammate> for CoreTeammate {
@@ -42,3 +44,10 @@ impl From<CoreTeammate> for Teammate {
         }
     }
 }
+
+pub fn new_user(name: String, id: Option<Ulid>) -> User {
+        User {
+            name,
+            id: id.unwrap_or_else(|| Ulid::new()),
+        }
+    }

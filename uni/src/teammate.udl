@@ -1,4 +1,7 @@
-namespace teammate {};
+namespace teammate {
+    User new_user(string name, Ulid? id);
+
+};
 
 [Custom]
 typedef string Ulid;
@@ -8,7 +11,7 @@ typedef string Url;
 
 dictionary User {
     string name;
-    Ulid? id;
+    Ulid id;
 };
 
 dictionary Payment {
