@@ -1,4 +1,6 @@
-use crate::models::{Expense, User};
+use crate::models::user::User;
+use crate::models::expense::Expense;
+use mate_core::models::teammate::Teammate as CoreTeammate;
 
 #[derive(Debug, Clone)]
 pub struct Teammate {
@@ -18,23 +20,23 @@ impl Teammate {
         core_tm
             .calculate()
             .into_iter()
-            .map(|p| crate::models::Payment::from(p))
+            .map(crate::models::Payment::from)
             .collect()
     }
 }
 
-impl From<mate_core::models::teammate::Teammate> for Teammate {
-    fn from(inner: mate_core::models::teammate::Teammate) -> Self {
+impl From<Teammate> for CoreTeammate {
+    fn from(inner: Teammate) -> Self {
         Self {
-            users: inner.users.into_iter().map(From::from).collect(),
-            expenses: inner.expenses.into_iter().map(From::from).collect(),
+            users: inner.users.into_iter().map(Into::into).collect(),
+            expenses: inner.expenses.into_iter().map(Into::into).collect(),
         }
     }
 }
 
-impl From<Teammate> for mate_core::models::teammate::Teammate {
-    fn from(inner: Teammate) -> Self {
-        mate_core::models::teammate::Teammate {
+impl From<CoreTeammate> for Teammate {
+    fn from(inner: CoreTeammate) -> Self {
+        Self {
             users: inner.users.into_iter().map(Into::into).collect(),
             expenses: inner.expenses.into_iter().map(Into::into).collect(),
         }

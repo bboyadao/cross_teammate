@@ -68,7 +68,11 @@ impl JsUser {
 
     #[wasm_bindgen(getter)]
     pub fn id(&self) -> String {
-        self.inner.id.to_string()
+        self.inner
+            .id
+            .as_ref()
+            .map(|id| id.to_string())
+            .unwrap_or_default()
     }
 }
 

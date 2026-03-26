@@ -8,7 +8,7 @@ impl Users for ModelUser {
     fn new(name: &str, id: Option<ulid::Ulid>) -> Self {
         Self {
             name: name.to_string(),
-            id: id.unwrap_or_else(new_ulid),
+            id: Some(id.unwrap_or_else(new_ulid)),
         }
     }
 }

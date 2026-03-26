@@ -1,4 +1,5 @@
 use crate::models::user::User;
+use mate_core::models::payments::Payment as CorePayment;
 
 #[derive(Debug, Clone)]
 pub struct Payment {
@@ -21,8 +22,13 @@ impl Payment {
     }
 }
 
-impl From<mate_core::models::payments::Payment> for Payment {
-    fn from(inner: mate_core::models::payments::Payment) -> Self {
+
+impl Payment {
+    // No inherent `from()`; conversions are implemented via the `From<...>` trait.
+}
+
+impl From<CorePayment> for Payment {
+    fn from(inner: CorePayment) -> Self {
         Self {
             src: inner.src.into(),
             dst: inner.dst.into(),
@@ -31,9 +37,9 @@ impl From<mate_core::models::payments::Payment> for Payment {
     }
 }
 
-impl From<Payment> for mate_core::models::payments::Payment {
+impl From<Payment> for CorePayment {
     fn from(inner: Payment) -> Self {
-        mate_core::models::payments::Payment {
+        Self {
             src: inner.src.into(),
             dst: inner.dst.into(),
             amount: inner.amount,

@@ -83,7 +83,7 @@ async fn main() {
         need_to_earn: 0,
     };
 
-    let tm = Teammate::anew(vec![alice_expense, bob_expense]).await;
+    let tm = Teammate::anew_from_expenses(vec![alice_expense, bob_expense]).await;
     let payments = tm.calculate();
 
     for p in payments {

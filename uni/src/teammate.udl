@@ -8,7 +8,7 @@ typedef string Url;
 
 dictionary User {
     string name;
-    Ulid id;
+    Ulid? id;
 };
 
 dictionary Payment {

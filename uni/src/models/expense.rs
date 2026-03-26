@@ -1,4 +1,5 @@
 use crate::models::user::User;
+use mate_core::models::expenses::Expense as CoreExpense;
 
 #[derive(Debug, Clone)]
 pub struct Expense {
@@ -41,8 +42,9 @@ impl Expense {
     }
 }
 
-impl From<mate_core::models::expenses::Expense> for Expense {
-    fn from(inner: mate_core::models::expenses::Expense) -> Self {
+// Conversions to/from core models.
+impl From<CoreExpense> for Expense {
+    fn from(inner: CoreExpense) -> Self {
         Self {
             amount: inner.amount,
             user: inner.user.into(),
@@ -53,9 +55,9 @@ impl From<mate_core::models::expenses::Expense> for Expense {
     }
 }
 
-impl From<Expense> for mate_core::models::expenses::Expense {
+impl From<Expense> for CoreExpense {
     fn from(inner: Expense) -> Self {
-        mate_core::models::expenses::Expense {
+        Self {
             amount: inner.amount,
             user: inner.user.into(),
             paid: inner.paid,
@@ -64,3 +66,4 @@ impl From<Expense> for mate_core::models::expenses::Expense {
         }
     }
 }
+

@@ -6,7 +6,7 @@ fn test_create_user_with_ulid() {
     // Assume a User struct with fields like id, name, and email.
     // The builder pattern is used here.
     let user = UserBuilder::default()
-        .id(ulid)
+        .id(Some(ulid))
         .name("Alice".to_string())
         .build()
         .unwrap();

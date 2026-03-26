@@ -8,7 +8,16 @@ use crate::models::users::User;
 use crate::traits::to_json::ToJson;
 
 impl Teammate {
-    pub async fn anew(expenses: Vec<Expense>) -> Self {
+    // Uniffi constructor to match `teammate.udl`:
+    // `constructor(sequence<User> users, sequence<Expense> expenses);`
+    #[uniffi::constructor]
+    pub fn anew(users: Vec<User>, expenses: Vec<Expense>) -> Self {
+        Self { users, expenses }
+    }
+
+    /// Convenience constructor used by Rust callers/tests.
+    /// Builds `users` from `expenses[i].user`.
+    pub async fn anew_from_expenses(expenses: Vec<Expense>) -> Self {
         let users: Vec<User> = expenses.iter().map(|e| e.user.clone()).collect();
         Teammate { users, expenses }
     }
