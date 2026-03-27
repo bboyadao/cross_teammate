@@ -10,7 +10,6 @@ use crate::traits::to_json::ToJson;
 impl Teammate {
     // Uniffi constructor to match `teammate.udl`:
     // `constructor(sequence<User> users, sequence<Expense> expenses);`
-    #[uniffi::constructor]
     pub fn anew(users: Vec<User>, expenses: Vec<Expense>) -> Self {
         Self { users, expenses }
     }

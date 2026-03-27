@@ -6,7 +6,7 @@ fn test_create_user_with_ulid() {
     // Assume a User struct with fields like id, name, and email.
     // The builder pattern is used here.
     let user = UserBuilder::default()
-        .id(Some(ulid))
+        .id(ulid)
         .name("Alice".to_string())
         .build()
         .unwrap();
@@ -19,8 +19,9 @@ fn test_create_user_without_ulid() {
     // The builder will generate a new ULID when `id` is not set.
     let user = UserBuilder::default()
         .name("Bob".to_string())
+        .id(ulid::Ulid::new())
         .build()
         .unwrap();
-
+    assert_eq!(user.id.to_string().len(), 26);
     // println!("{}", user.id.to_string());
 }

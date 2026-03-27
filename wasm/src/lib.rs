@@ -7,39 +7,39 @@ use mate_core::models::users::User as CoreUser;
 // ── JsUlid ───────────────────────────────────────────────────────────────────
 
 #[wasm_bindgen]
-pub struct JsUlid {
+pub struct Ulid {
     value: String,
 }
 
 #[wasm_bindgen]
-impl JsUlid {
+impl Ulid {
     #[wasm_bindgen(constructor)]
-    pub fn new() -> JsUlid {
-        JsUlid { value: mate_core::new_ulid().to_string() }
+    pub fn new() -> Ulid {
+        Ulid { value: mate_core::new_ulid().to_string() }
     }
 
     #[wasm_bindgen(js_name = fromString)]
-    pub fn from_string(s: &str) -> Result<JsUlid, JsValue> {
+    pub fn from_string(s: &str) -> Result<Ulid, JsValue> {
         mate_core::ulid_from_string(s)
-            .map(|id| JsUlid { value: id.to_string() })
+            .map(|id| Ulid { value: id.to_string() })
             .map_err(|e| JsValue::from_str(&e))
     }
 }
 
-impl Default for JsUlid {
+impl Default for Ulid {
     fn default() -> Self {
         Self::new()
     }
 }
 
-impl std::fmt::Display for JsUlid {
+impl std::fmt::Display for Ulid {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "{}", self.value)
     }
 }
 
 #[wasm_bindgen]
-impl JsUlid {
+impl Ulid {
     #[wasm_bindgen(js_name = toString)]
     pub fn to_js_string(&self) -> String {
         self.value.clone()
@@ -49,16 +49,16 @@ impl JsUlid {
 // ── JsUser ───────────────────────────────────────────────────────────────────
 
 #[wasm_bindgen]
-pub struct JsUser {
+pub struct User {
     inner: CoreUser,
 }
 
 #[wasm_bindgen]
-impl JsUser {
+impl User {
     /// Create a new user with an auto-generated ULID.
     #[wasm_bindgen(constructor)]
-    pub fn new(name: &str) -> JsUser {
-        JsUser { inner: CoreUser::new(name, None) }
+    pub fn new(name: &str) -> User {
+        User { inner: CoreUser::new(name, None) }
     }
 
     #[wasm_bindgen(getter)]
@@ -68,28 +68,24 @@ impl JsUser {
 
     #[wasm_bindgen(getter)]
     pub fn id(&self) -> String {
-        self.inner
-            .id
-            .as_ref()
-            .map(|id| id.to_string())
-            .unwrap_or_default()
+        self.inner.id.to_string().into()
     }
 }
 
 // ── JsExpense ────────────────────────────────────────────────────────────────
 
 #[wasm_bindgen]
-pub struct JsExpense {
+pub struct Expense {
     inner: CoreExpense,
 }
 
 #[wasm_bindgen]
-impl JsExpense {
+impl Expense {
     /// `user`  – the JsUser who made this expense  
     /// `paid`  – how much they actually paid
     #[wasm_bindgen(constructor)]
-    pub fn new(user: &JsUser, paid: u64) -> JsExpense {
-        JsExpense {
+    pub fn new(user: &User, paid: u64) -> Expense {
+        Expense {
             inner: CoreExpense {
                 amount: paid,
                 user: user.inner.clone(),
@@ -115,14 +111,14 @@ impl JsExpense {
 
 /// A single settled payment: `src` owes `amount` to `dst`.
 #[wasm_bindgen]
-pub struct JsPayment {
+pub struct Payment {
     pub amount: u64,
     src_name: String,
     dst_name: String,
 }
 
 #[wasm_bindgen]
-impl JsPayment {
+impl Payment {
     #[wasm_bindgen(getter)]
     pub fn src(&self) -> String {
         self.src_name.clone()
@@ -137,12 +133,12 @@ impl JsPayment {
 // ── JsTeammate ───────────────────────────────────────────────────────────────
 
 #[wasm_bindgen]
-pub struct JsTeammate {
+pub struct Teammate {
     inner: CoreTeammate,
 }
 
 #[wasm_bindgen]
-impl JsTeammate {
+impl Teammate {
     /// Build a Teammate from a JS Array of JsExpense objects.
     ///
     /// ```js
@@ -153,12 +149,12 @@ impl JsTeammate {
     /// const payments = tm.calculate();
     /// ```
     #[wasm_bindgen]
-    pub fn from_expenses(expenses: Vec<JsExpense>) -> JsTeammate {
+    pub fn from_expenses(expenses: Vec<Expense>) -> Teammate {
         let core_expenses: Vec<CoreExpense> =
             expenses.into_iter().map(|e| e.inner).collect();
         let users: Vec<CoreUser> =
             core_expenses.iter().map(|e| e.user.clone()).collect();
-        JsTeammate {
+        Teammate {
             inner: CoreTeammate { users, expenses: core_expenses },
         }
     }
@@ -166,11 +162,11 @@ impl JsTeammate {
     /// Compute the minimal settlement payments.
     /// Returns a JS Array of JsPayment.
     #[wasm_bindgen]
-    pub fn calculate(&self) -> Vec<JsPayment> {
+    pub fn calculate(&self) -> Vec<Payment> {
         self.inner
             .calculate()
             .into_iter()
-            .map(|p| JsPayment {
+            .map(|p| Payment {
                 amount: p.amount,
                 src_name: p.src.name,
                 dst_name: p.dst.name,

@@ -7,7 +7,7 @@ CRATES = mate_core uni wasm
 .PHONY: test $(CRATES) test-all clean help build-wasm build-python test-python test-js
 
 # Main test target
-test: $(addprefix test-,$(CRATES)) test-python test-js
+test: $(addprefix test-,$(CRATES)) test-python test-js test-wasm
 
 # Dynamic targets for each crate
 test-mate_core:

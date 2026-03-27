@@ -11,10 +11,9 @@ crate-type = ["cdylib", "rlib"]
 
 [dependencies]
 wasm-bindgen = "0.2"
-getrandom = { version = "0.4.2", features = ["wasm_js"] }
-getrandom_03 = { package = "getrandom", version = "0.3", features = ["wasm_js"] }
+getrandom = { version = "0.3.4", features = ["wasm_js"] } # The "wasm_js" backend requires the `wasm_js` feature for `getrandom`. For more information see: https://docs.rs/getrandom/0.3.4/#webassembly-support
+
 mate_core = { path = "../mate_core" }
-#ulid = "1.2.1"
 
 [package.metadata.wasm-pack.profile.release]
 wasm-opt = ["-O4", "--enable-mutable-globals"]
